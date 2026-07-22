@@ -19,6 +19,7 @@ import reactor.test.StepVerifier;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -48,13 +49,11 @@ class AddProductUseCaseTest {
 
     @Test
     void shouldFailWhenStockIsNegative() {
-        Branch branch = Branch.builder().id("branch-id").name(BranchName.of("Main Branch")).products(new ArrayList<>()).build();
-        Franchise franchise = Franchise.builder().id("franchise-id").branches(List.of(branch)).build();
-
-        when(franchiseRepository.findById("franchise-id")).thenReturn(Mono.just(franchise));
-
-        StepVerifier.create(useCase.execute("franchise-id", "branch-id", Product.builder().name(ProductName.of("Soda")).stock(ProductStock.of(-1)).build()))
-                .expectError(InvalidProductException.class)
-                .verify();
+        assertThrows(IllegalArgumentException.class, () -> {
+            Product.builder()
+                    .name(ProductName.of("Soda"))
+                    .stock(ProductStock.of(-1))
+                    .build();
+        });
     }
 }

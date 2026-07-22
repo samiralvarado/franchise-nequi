@@ -47,12 +47,6 @@ class UpdateStockUseCaseTest {
 
     @Test
     void shouldFailWhenStockIsNegative() {
-        Product product = Product.builder().id("product-id").name(ProductName.of("Soda")).stock(ProductStock.of(10)).build();
-        Branch branch = Branch.builder().id("branch-id").name(BranchName.of("Main Branch")).products(new ArrayList<>(List.of(product))).build();
-        Franchise franchise = Franchise.builder().id("franchise-id").branches(List.of(branch)).build();
-
-        when(repository.findById("franchise-id")).thenReturn(Mono.just(franchise));
-
         StepVerifier.create(useCase.updateStock("franchise-id", "branch-id", "product-id", -1))
                 .expectError(InvalidProductException.class)
                 .verify();

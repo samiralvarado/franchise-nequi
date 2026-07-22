@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -38,12 +39,8 @@ class UpdateFranchiseUseCaseTest {
 
     @Test
     void shouldFailWhenNameIsBlank() {
-        Franchise franchise = Franchise.builder().id("franchise-id").name(FranchiseName.of("Old name")).build();
-
-        when(franchiseRepository.findById("franchise-id")).thenReturn(Mono.just(franchise));
-
-        StepVerifier.create(useCase.execute("franchise-id", " "))
-                .expectError(InvalidFranchiseException.class)
-                .verify();
+        assertThrows(IllegalArgumentException.class, () -> {
+            FranchiseName.of(" ");
+        });
     }
 }

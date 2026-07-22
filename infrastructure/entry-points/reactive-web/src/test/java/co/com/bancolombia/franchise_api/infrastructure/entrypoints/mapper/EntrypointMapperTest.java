@@ -19,7 +19,7 @@ class EntrypointMapperTest {
 
         var franchise = FranchiseMapper.toDomain(request);
 
-        assertEquals("North Franchise", franchise.getName());
+        assertEquals("North Franchise", franchise.getName().getValue());
     }
 
     @Test
@@ -29,7 +29,7 @@ class EntrypointMapperTest {
 
         var branch = BranchMapper.toDomain(request);
 
-        assertEquals("Main Branch", branch.getName());
+        assertEquals("Main Branch", branch.getName().getValue());
         assertNotNull(branch.getProducts());
         assertTrue(branch.getProducts().isEmpty());
     }
@@ -42,7 +42,7 @@ class EntrypointMapperTest {
 
         var product = ProductMapper.toDomain(request);
 
-        assertEquals("Soda", product.getName());
-        assertEquals(20, product.getStock());
+        assertEquals("Soda", product.getName().getValue());
+        assertEquals(20, product.getStock().getValue());
     }
 }

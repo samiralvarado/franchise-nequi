@@ -1,10 +1,16 @@
 package co.com.nequi.franchise_api.infrastructure.adapters.driven.mongo.repository;
 
-import co.com.nequi.franchise_api.branch.Branch;
-import co.com.nequi.franchise_api.franchise.Franchise;
-import co.com.nequi.franchise_api.infrastructure.adapters.driven.mongo.entity.FranchiseEntity;
-import co.com.nequi.franchise_api.product.Product;
-import co.com.nequi.franchise_api.product.dto.ProductReport;
+import co.com.bancolombia.franchise_api.infrastructure.adapters.driven.mongo.entity.FranchiseEntity;
+import co.com.bancolombia.franchise_api.infrastructure.adapters.driven.mongo.repository.FranchiseRepositoryImpl;
+import co.com.bancolombia.franchise_api.infrastructure.adapters.driven.mongo.repository.MongoReactiveRepository;
+import co.com.bancolombia.model.branch.Branch;
+import co.com.bancolombia.model.branch.values.BranchName;
+import co.com.bancolombia.model.franchise.Franchise;
+import co.com.bancolombia.model.franchise.values.FranchiseName;
+import co.com.bancolombia.model.product.Product;
+import co.com.bancolombia.model.product.dto.ProductReport;
+import co.com.bancolombia.model.product.values.ProductName;
+import co.com.bancolombia.model.product.values.ProductStock;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -37,11 +43,11 @@ class FranchiseRepositoryImplTest {
 
     @Test
     void shouldSaveFranchise() {
-        Product product = Product.builder().id("product-id").name("Soda").stock(10).build();
-        Branch branch = Branch.builder().id("branch-id").name("Main Branch").products(List.of(product)).build();
+        Product product = Product.builder().id("product-id").name(ProductName.of("Soda")).stock(ProductStock.of(10)).build();
+        Branch branch = Branch.builder().id("branch-id").name(BranchName.of("Main Branch")).products(List.of(product)).build();
         Franchise franchise = Franchise.builder()
                 .id("franchise-id")
-                .name("North Franchise")
+                .name(FranchiseName.of("North Franchise"))
                 .branches(List.of(branch))
                 .build();
         FranchiseEntity entity = FranchiseEntity.builder()
@@ -54,7 +60,7 @@ class FranchiseRepositoryImplTest {
 
         StepVerifier.create(repository.save(franchise))
                 .expectNextMatches(saved -> saved.getId().equals("franchise-id")
-                        && saved.getBranches().getFirst().getProducts().getFirst().getName().equals("Soda"))
+                        && saved.getBranches().getFirst().getProducts().getFirst().getName().getValue().equals("Soda"))
                 .verifyComplete();
 
         verify(mongoReactiveRepository).save(any(FranchiseEntity.class));
@@ -70,7 +76,7 @@ class FranchiseRepositoryImplTest {
         when(mongoReactiveRepository.findById("franchise-id")).thenReturn(Mono.just(entity));
 
         StepVerifier.create(repository.findById("franchise-id"))
-                .expectNextMatches(franchise -> franchise.getName().equals("North Franchise"))
+                .expectNextMatches(franchise -> franchise.getName().getValue().equals("North Franchise"))
                 .verifyComplete();
     }
 
@@ -92,7 +98,7 @@ class FranchiseRepositoryImplTest {
     void shouldGetMaxStockPerBranch() {
         ProductReport report = ProductReport.builder()
                 .branchName("Main Branch")
-                .product(Product.builder().id("product-id").name("Soda").stock(50).build())
+                .product(Product.builder().id("product-id").name(ProductName.of("Soda")).stock(ProductStock.of(50)).build())
                 .build();
 
         when(mongoTemplate.aggregate(any(Aggregation.class), eq("franchises"), eq(ProductReport.class)))
@@ -100,7 +106,7 @@ class FranchiseRepositoryImplTest {
 
         StepVerifier.create(repository.getMaxStockPerBranch("franchise-id"))
                 .expectNextMatches(result -> result.getBranchName().equals("Main Branch")
-                        && result.getProduct().getStock() == 50)
+                        && result.getProduct().getStock().getValue() == 50)
                 .verifyComplete();
     }
 }

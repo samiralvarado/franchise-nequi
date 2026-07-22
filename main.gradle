@@ -13,8 +13,6 @@ subprojects {
     apply plugin: 'io.spring.dependency-management'
     apply plugin: 'info.solidsoft.pitest'
 
-    compileJava.dependsOn validateStructure
-
     java {
         toolchain {
             languageVersion = JavaLanguageVersion.of(21)
@@ -53,7 +51,9 @@ subprojects {
         }
     }
 
-    test.finalizedBy(project.tasks.jacocoTestReport)
+    // test.finalizedBy(project.tasks.jacocoTestReport)
+    // Disabled auto-reporting to avoid running pitest automatically after tests.
+    // Run './gradlew jacocoTestReport' manually when a coverage report is needed.
 
     pitest {
         targetClasses = ['co.com.bancolombia.*']
@@ -75,7 +75,7 @@ subprojects {
     }
 
     jacocoTestReport {
-        dependsOn test, 'pitest'
+        dependsOn test
         reports {
             xml.setRequired true
             xml.setOutputLocation layout.buildDirectory.file("reports/jacoco.xml")

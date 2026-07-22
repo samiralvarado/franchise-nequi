@@ -1,18 +1,20 @@
 package co.com.bancolombia.franchise_api.infrastructure.entrypoints.handler;
 
-import co.com.bancolombia.franchise_api.branch.Branch;
-import co.com.bancolombia.franchise_api.domain.usecase.AddBranchUseCase;
-import co.com.bancolombia.franchise_api.domain.usecase.AddProductUseCase;
-import co.com.bancolombia.franchise_api.domain.usecase.CreateFranchiseUseCase;
-import co.com.bancolombia.franchise_api.domain.usecase.DeleteProductUseCase;
-import co.com.bancolombia.franchise_api.domain.usecase.GetMaxStockUseCase;
-import co.com.bancolombia.franchise_api.domain.usecase.UpdateBranchNameUseCase;
-import co.com.bancolombia.franchise_api.domain.usecase.UpdateFranchiseUseCase;
-import co.com.bancolombia.franchise_api.domain.usecase.UpdateProductNameUseCase;
-import co.com.bancolombia.franchise_api.domain.usecase.UpdateStockUseCase;
-import co.com.bancolombia.franchise_api.franchise.Franchise;
-import co.com.bancolombia.franchise_api.franchise.exceptions.FranchiseAlreadyExistsException;
+import co.com.bancolombia.franchise_api.infrastructure.entrypoints.dto.BranchRequest;
 import co.com.bancolombia.franchise_api.infrastructure.entrypoints.dto.FranchiseRequest;
+import co.com.bancolombia.model.branch.Branch;
+import co.com.bancolombia.model.franchise.Franchise;
+import co.com.bancolombia.model.franchise.exceptions.FranchiseAlreadyExistsException;
+import co.com.bancolombia.model.franchise.values.FranchiseName;
+import co.com.bancolombia.usecase.AddBranchUseCase;
+import co.com.bancolombia.usecase.AddProductUseCase;
+import co.com.bancolombia.usecase.CreateFranchiseUseCase;
+import co.com.bancolombia.usecase.DeleteProductUseCase;
+import co.com.bancolombia.usecase.GetMaxStockUseCase;
+import co.com.bancolombia.usecase.UpdateBranchNameUseCase;
+import co.com.bancolombia.usecase.UpdateFranchiseUseCase;
+import co.com.bancolombia.usecase.UpdateProductNameUseCase;
+import co.com.bancolombia.usecase.UpdateStockUseCase;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import org.junit.jupiter.api.BeforeEach;
@@ -68,7 +70,7 @@ class FranchiseHandlerTest {
                 .build();
         Franchise franchise = Franchise.builder()
                 .id("franchise-id")
-                .name("North Franchise")
+                .name(FranchiseName.of("North Franchise"))
                 .branches(new ArrayList<>())
                 .build();
 
@@ -114,6 +116,7 @@ class FranchiseHandlerTest {
     void shouldAddBranch() {
         Franchise franchise = Franchise.builder()
                 .id("franchise-id")
+                .name(FranchiseName.of("North Franchise"))
                 .branches(new ArrayList<>())
                 .build();
 
@@ -128,8 +131,8 @@ class FranchiseHandlerTest {
                 .verifyComplete();
     }
 
-    private co.com.nequi.franchise_api.infrastructure.entrypoints.dto.BranchRequest branchRequest(String name) {
-        var request = new co.com.nequi.franchise_api.infrastructure.entrypoints.dto.BranchRequest();
+    private BranchRequest branchRequest(String name) {
+        var request = new BranchRequest();
         request.setName(name);
         return request;
     }
