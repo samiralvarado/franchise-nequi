@@ -1,24 +1,21 @@
 package co.com.bancolombia.franchise_api.infrastructure.adapters.driven.mongo.entity;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "franchises")
-public class FranchiseEntity {
-    @Id
+@Document(collection = "branch")
+public class BranchEntity {
     private String id;
     private String name;
     @Builder.Default
-    private List<BranchEntity> branches = new ArrayList<>();
+    private List<ProductEntity> products = new ArrayList<>();
 }

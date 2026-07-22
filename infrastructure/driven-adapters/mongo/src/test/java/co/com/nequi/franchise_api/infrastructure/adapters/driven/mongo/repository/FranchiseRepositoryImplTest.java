@@ -1,6 +1,8 @@
 package co.com.nequi.franchise_api.infrastructure.adapters.driven.mongo.repository;
 
+import co.com.bancolombia.franchise_api.infrastructure.adapters.driven.mongo.entity.BranchEntity;
 import co.com.bancolombia.franchise_api.infrastructure.adapters.driven.mongo.entity.FranchiseEntity;
+import co.com.bancolombia.franchise_api.infrastructure.adapters.driven.mongo.entity.ProductEntity;
 import co.com.bancolombia.franchise_api.infrastructure.adapters.driven.mongo.repository.FranchiseRepositoryImpl;
 import co.com.bancolombia.franchise_api.infrastructure.adapters.driven.mongo.repository.MongoReactiveRepository;
 import co.com.bancolombia.model.branch.Branch;
@@ -50,10 +52,13 @@ class FranchiseRepositoryImplTest {
                 .name(FranchiseName.of("North Franchise"))
                 .branches(List.of(branch))
                 .build();
+        
+        ProductEntity productEntity = ProductEntity.builder().id("product-id").name("Soda").stock(10).build();
+        BranchEntity branchEntity = BranchEntity.builder().id("branch-id").name("Main Branch").products(List.of(productEntity)).build();
         FranchiseEntity entity = FranchiseEntity.builder()
                 .id("franchise-id")
                 .name("North Franchise")
-                .branches(List.of(branch))
+                .branches(List.of(branchEntity))
                 .build();
 
         when(mongoReactiveRepository.save(any(FranchiseEntity.class))).thenReturn(Mono.just(entity));
@@ -68,9 +73,11 @@ class FranchiseRepositoryImplTest {
 
     @Test
     void shouldFindById() {
+        BranchEntity branchEntity = BranchEntity.builder().id("branch-id").name("Main Branch").build();
         FranchiseEntity entity = FranchiseEntity.builder()
                 .id("franchise-id")
                 .name("North Franchise")
+                .branches(List.of(branchEntity))
                 .build();
 
         when(mongoReactiveRepository.findById("franchise-id")).thenReturn(Mono.just(entity));
@@ -82,9 +89,11 @@ class FranchiseRepositoryImplTest {
 
     @Test
     void shouldFindByName() {
+        BranchEntity branchEntity = BranchEntity.builder().id("branch-id").name("Main Branch").build();
         FranchiseEntity entity = FranchiseEntity.builder()
                 .id("franchise-id")
                 .name("North Franchise")
+                .branches(List.of(branchEntity))
                 .build();
 
         when(mongoReactiveRepository.findByName("North Franchise")).thenReturn(Mono.just(entity));

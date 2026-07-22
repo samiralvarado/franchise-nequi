@@ -1,6 +1,8 @@
 package co.com.nequi.franchise_api.infrastructure.adapters.driven.mongo.mapper;
 
+import co.com.bancolombia.franchise_api.infrastructure.adapters.driven.mongo.entity.BranchEntity;
 import co.com.bancolombia.franchise_api.infrastructure.adapters.driven.mongo.entity.FranchiseEntity;
+import co.com.bancolombia.franchise_api.infrastructure.adapters.driven.mongo.entity.ProductEntity;
 import co.com.bancolombia.franchise_api.infrastructure.adapters.driven.mongo.mapper.MongoMapper;
 import co.com.bancolombia.model.branch.Branch;
 import co.com.bancolombia.model.branch.values.BranchName;
@@ -19,12 +21,12 @@ class MongoMapperTest {
 
     @Test
     void shouldMapEntityToDomain() {
-        Product product = Product.builder().id("product-id").name(ProductName.of("Soda")).stock(ProductStock.of(10)).build();
-        Branch branch = Branch.builder().id("branch-id").name(BranchName.of("Main Branch")).products(List.of(product)).build();
+        ProductEntity productEntity = ProductEntity.builder().id("product-id").name("Soda").stock(10).build();
+        BranchEntity branchEntity = BranchEntity.builder().id("branch-id").name("Main Branch").products(List.of(productEntity)).build();
         FranchiseEntity entity = FranchiseEntity.builder()
                 .id("franchise-id")
                 .name("North Franchise")
-                .branches(List.of(branch))
+                .branches(List.of(branchEntity))
                 .build();
 
         Franchise franchise = MongoMapper.toDomain(entity);
