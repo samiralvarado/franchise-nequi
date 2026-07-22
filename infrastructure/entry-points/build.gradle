@@ -1,0 +1,3 @@
+// Parent module for entry-points
+apply plugin: 'java'
+

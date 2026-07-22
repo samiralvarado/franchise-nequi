@@ -1,0 +1,3 @@
+// Parent module for driven-adapters
+apply plugin: 'java'
+

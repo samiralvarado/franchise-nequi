@@ -1,0 +1,3 @@
+// Parent module for infrastructure
+apply plugin: 'java'
+
