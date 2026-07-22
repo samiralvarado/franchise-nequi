@@ -1,0 +1,35 @@
+pluginManagement {
+    repositories {
+        mavenLocal()
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}
+
+buildCache {
+    local {
+        directory = new File(rootDir, 'build-cache')
+    }
+}
+
+rootProject.name = 'franchise-api'
+
+include ':applications:app-service'
+project(':applications:app-service').projectDir =
+        file('applications/app-service')
+
+include ':domain:model'
+project(':domain:model').projectDir =
+        file('domain/model')
+
+include ':domain:usecase'
+project(':domain:usecase').projectDir =
+        file('domain/usecase')
+
+include ':infrastructure:driven-adapters:mongo'
+project(':infrastructure:driven-adapters:mongo').projectDir =
+        file('infrastructure/driven-adapters/mongo')
+
+include ':infrastructure:entry-points:reactive-web'
+project(':infrastructure:entry-points:reactive-web').projectDir =
+        file('infrastructure/entry-points/reactive-web')

@@ -1,0 +1,21 @@
+plugins {
+    id 'org.springframework.boot'
+}
+
+dependencies {
+
+    implementation project(':domain:model')
+    implementation project(':domain:usecase')
+
+    implementation project(':infrastructure:driven-adapters:mongo')
+    implementation project(':infrastructure:entry-points:reactive-web')
+
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.springdoc:springdoc-openapi-starter-webflux-ui:2.0.2'
+}
+
+bootJar {
+    archiveFileName = 'app.jar'
+}

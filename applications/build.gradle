@@ -1,0 +1,3 @@
+// Parent module for applications
+apply plugin: 'java'
+
