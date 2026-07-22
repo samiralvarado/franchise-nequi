@@ -2,7 +2,7 @@
 
 API de gestión de franquicias implementada con la arquitectura Clean Architecture de Bancolombia, Spring Boot 3.3.6, Java 21, MongoDB y despliegue en AWS.
 
-## 📋 Tabla de Contenidos
+## Tabla de Contenidos
 
 - [Estructura del Proyecto](#estructura-del-proyecto)
 - [Requisitos Previos](#requisitos-previos)
@@ -16,7 +16,7 @@ API de gestión de franquicias implementada con la arquitectura Clean Architectu
 
 ---
 
-## 📁 Estructura del Proyecto
+## Estructura del Proyecto
 
 ```
 franchise-api/
@@ -46,32 +46,7 @@ franchise-api/
 └── build.gradle                  # Configuración Gradle multiproyecto
 ```
 
-### Capas de la Arquitectura
-
-```
-┌─────────────────────────────────────────────────────────┐
-│ Application Layer (applications/app-service)            │
-│ - Spring Boot entry point                               │
-│ - Bean wiring y dependency injection                     │
-│ - Configuration & ComponentScan                          │
-└──────────────────┬──────────────────────────────────────┘
-                   │
-┌──────────────────┴──────────────────────────────────────┐
-│ Domain Layer (domain/)                                  │
-│ ├─ Model: Entities, Value Objects, Business Rules      │
-│ └─ UseCases: Application logic (interfaces)             │
-└──────────────────┬──────────────────────────────────────┘
-                   │
-┌──────────────────┴──────────────────────────────────────┐
-│ Infrastructure Layer (infrastructure/)                  │
-│ ├─ Driven Adapters: MongoDB, APIs externas             │
-│ └─ Entry Points: REST Controllers, WebFlux handlers     │
-└─────────────────────────────────────────────────────────┘
-```
-
----
-
-## 🔧 Requisitos Previos
+##  Requisitos Previos
 
 ### Desarrollo Local
 - **Java 21+**: [OpenJDK 21](https://openjdk.java.net/projects/jdk/21/) o Eclipse Temurin
@@ -86,7 +61,7 @@ franchise-api/
 
 ---
 
-## 🚀 Setup Local
+## Setup Local
 
 ### 1. Clonar Repositorio
 
@@ -121,7 +96,7 @@ SERVER_PORT=8080
 
 ---
 
-## 🐳 Ejecución Local con Docker Compose
+## Ejecución Local con Docker Compose
 
 ### Inicio Rápido
 
@@ -138,8 +113,9 @@ docker-compose up --build
 ### Servicios en docker-compose.yml
 
 | Servicio | Puerto | Descripción |
-|----------|--------|-------------|
-| **mongodb** | 27017 | Base de datos MongoDB |
+
+| **mongodb** | 27017 | Base de datos MongoDB|
+
 | **api** | 8080 | Aplicación Spring Boot |
 
 ### Detener Servicios
@@ -160,7 +136,7 @@ curl http://localhost:8080/actuator/health
 
 ---
 
-## 🧪 Compilación y Testing
+## Compilación y Testing
 
 ### Build sin Tests
 
@@ -194,7 +170,7 @@ curl http://localhost:8080/actuator/health
 
 ---
 
-## 🔌 API Endpoints
+## API Endpoints
 
 ### Base URL
 ```
@@ -251,7 +227,7 @@ Respuesta (200 OK):
 
 ---
 
-## ☁️ Despliegue en AWS con Terraform
+## Despliegue en AWS con Terraform
 
 ### Prerequisitos AWS
 
@@ -289,20 +265,30 @@ nano terraform.tfvars
 
 **terraform.tfvars requerido:**
 
-```hcl
+
 aws_region           = "us-east-2"
+
 project_name         = "franchise-api"
+
 vpc_id               = "vpc-xxxxxxxx"
+
 subnet_ids           = ["subnet-xxxxxxxx", "subnet-yyyyyyyy"]
+
 db_username          = "admin"
+
 db_password          = "SecurePassword123!"
+
 db_instance_count    = 1
+
 db_instance_class    = "db.t3.medium"
+
 container_port       = 8080
+
 desired_count        = 1
+
 task_cpu             = 512
+
 task_memory          = 1024
-```
 
 ### Paso 2: Inicializar Terraform
 
@@ -390,10 +376,10 @@ aws ecs update-service \
 terraform destroy
 ```
 
-**⚠️ Advertencia**: Esto eliminará todos los recursos creados incluyendo DocumentDB, ECS tasks y ECR images.
+**Advertencia**: Esto eliminará todos los recursos creados incluyendo DocumentDB, ECS tasks y ECR images.
 
 ---
-## 📝 Git Workflow
+## Git Workflow
 
 ### Crear feature branch (ejemplo completado)
 
@@ -423,22 +409,7 @@ git push origin main
 
 ---
 
-## 📖 Referencias
-
-- [Bancolombia Clean Architecture](https://github.com/bancolombia/scaffold)
-- [Spring Boot Documentation](https://spring.io/projects/spring-boot)
-- [MongoDB Documentation](https://docs.mongodb.com/)
-- [Terraform AWS Provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
-- [Docker Documentation](https://docs.docker.com/)
-
----
-
-## 📄 Licencia
-
-Este proyecto usa la arquitectura Clean Architecture de Bancolombia.
-
----
-
 ## 👥 Contacto
 
-Para preguntas o issues, abrir un issue en el repositorio.
+Para preguntas o issues, abrir un issue en el repositorio o al correo
+samir.alvarado@pragma.com.co
